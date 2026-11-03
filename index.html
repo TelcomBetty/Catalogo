@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sistema - Betty Telecomunicaciones</title>
+  <title>Abriendo Sistema… - Betty Telecomunicaciones</title>
   <meta name="description" content="Accede al sistema de Betty Telecomunicaciones.">
 
   <meta property="og:type" content="website">
@@ -20,13 +20,20 @@
   </style>
 
   <script>
+    // Cambia la URL solo aquí
+    var URL_SISTEMA = "https://script.google.com/macros/s/AKfycbxgErdwiSVylKhXd7cxQblAIDMtGqMRUbb8OpYHVbSZsjhR0mNheGaoT4OTUgaExVOLJg/exec";
+
     setTimeout(function () {
-      window.location.href = "https://script.google.com/macros/s/AKfycbxgErdwiSVylKhXd7cxQblAIDMtGqMRUbb8OpYHVbSZsjhR0mNheGaoT4OTUgaExVOLJg/exec";
+      window.location.href = URL_SISTEMA;
     }, 800);
+
+    window.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("btn").href = URL_SISTEMA;
+    });
   </script>
 </head>
 <body>
   <h2>Abriendo Sistema…</h2>
-  <a href="https://script.google.com/macros/s/AKfycbxgErdwiSVylKhXd7cxQblAIDMtGqMRUbb8OpYHVbSZsjhR0mNheGaoT4OTUgaExVOLJg/exec">Abrir Sistema</a>
+  <a id="btn" href="https://script.google.com/macros/s/AKfycbxgErdwiSVylKhXd7cxQblAIDMtGqMRUbb8OpYHVbSZsjhR0mNheGaoT4OTUgaExVOLJg/exec">Abrir Sistema</a>
 </body>
 </html>
