@@ -6,6 +6,11 @@
   <title>Catálogo - Betty Telecomunicaciones</title>
   <meta name="description" content="Mira nuestros productos y precios. Betty Telecomunicaciones.">
 
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1a6fc4">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
   <!-- Open Graph (WhatsApp / Facebook) -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Betty Telecomunicaciones">
@@ -21,24 +26,47 @@
 
   <style>
     body{font-family:Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f4f7fb;color:#1a3a6b;text-align:center}
-    a{margin-top:16px;padding:12px 24px;background:#1a6fc4;color:#fff;border-radius:8px;text-decoration:none}
+    a,button{margin-top:16px;padding:12px 24px;background:#1a6fc4;color:#fff;border-radius:8px;text-decoration:none;border:0;font-size:16px;cursor:pointer}
+    #btnInstalar{display:none;background:#2e9e5b}
   </style>
 
   <script>
     // ÚNICO lugar donde se cambia la URL del catálogo
     var URL_CATALOGO = "https://script.google.com/macros/s/AKfycby7HOLEE8gFSJZiv_IoWRKBE2XTrSc_BnLPUSNt7Bwd_5hqkJ8ijN2ATE9WPRNN-iOCuA/exec";
 
-    window.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("btn").href = URL_CATALOGO;
+    // Si la URL termina en ?instalar, NO redirige (sirve para instalar la app)
+    var modoInstalar = location.search.indexOf("instalar") !== -1;
+    var promptInstalar = null;
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
+
+    window.addEventListener("beforeinstallprompt", function (e) {
+      e.preventDefault();
+      promptInstalar = e;
+      if (modoInstalar) document.getElementById("btnInstalar").style.display = "inline-block";
     });
 
-    setTimeout(function () {
-      window.location.replace(URL_CATALOGO);
-    }, 1000);
+    window.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("btn").href = URL_CATALOGO;
+
+      if (modoInstalar) {
+        document.getElementById("titulo").textContent = "Instalar catálogo";
+        document.getElementById("btnInstalar").addEventListener("click", function () {
+          if (promptInstalar) { promptInstalar.prompt(); }
+        });
+      } else {
+        setTimeout(function () {
+          window.location.replace(URL_CATALOGO);
+        }, 1000);
+      }
+    });
   </script>
 </head>
 <body>
-  <h2>Abriendo catálogo…</h2>
+  <h2 id="titulo">Abriendo catálogo…</h2>
+  <button id="btnInstalar">📲 Instalar aplicación</button>
   <a id="btn" href="#">Abrir catálogo</a>
 </body>
 </html>
